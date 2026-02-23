@@ -298,7 +298,7 @@ export default function HomePage() {
               <Text fw={700} c="dimmed">EduManager</Text>
             </Group>
             <Text c="dimmed" fz="sm" ta="center">
-              Le futur de la gestion scolaire est ici. Made with Next.js & MongoDB.
+              Le futur de la gestion scolaire est ici.
             </Text>
             <Text c="dimmed" fz="xs" mt="md">
               © 2026 EduManager. Tous droits réservés.

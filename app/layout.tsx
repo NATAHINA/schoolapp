@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
 dayjs.locale('fr');
 
 export const metadata = {
-  title: 'School App',
+  title: 'EduManager',
   description: 'Application de gestion multi-écoles',
 }
 
