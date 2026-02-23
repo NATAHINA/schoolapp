@@ -25,7 +25,8 @@ import {
   IconMoon, IconClock, IconCheck,
   IconBackpack,IconArrowRight,
   IconLogin, IconUserPlus,
-  IconDatabase, IconCloudLock 
+  IconDatabase, IconCloudLock,
+  IconHeadset, IconFileImport, IconDevices, IconLockCheck 
 } from '@tabler/icons-react';
 import Link from 'next/link';
 
@@ -268,25 +269,50 @@ export default function HomePage() {
 
         {/* --- SECTION QUESTIONS --- */}
         <Box mt={120} mb={60} maw={800} mx="auto">
-          <Title order={2} ta="center" mb="xl" fw={800}>Questions fréquentes</Title>
-          <Accordion variant="separated" radius="md">
-            <Accordion.Item value="security">
-              <Accordion.Control icon={<IconCloudLock size={20} color="teal"/>}>
-                Mes données sont-elles sécurisées ?
+          <Stack align="center" mb="xl">
+            <Badge color="teal" variant="light" size="lg">FAQ</Badge>
+            <Title order={2} ta="center" fw={800}>Tout savoir sur EduManager</Title>
+            <Text c="dimmed" ta="center">Des réponses claires pour vous accompagner dans votre transformation numérique.</Text>
+          </Stack>
+
+          <Accordion variant="separated" radius="lg" chevronPosition="right" defaultValue="security">
+            
+            <Accordion.Item value="security" style={{ border: '1px solid var(--mantine-color-gray-3)' }}>
+              <Accordion.Control icon={<IconLockCheck size={20} color="var(--mantine-color-teal-6)"/>}>
+                Comment la confidentialité de mes données est-elle garantie ?
               </Accordion.Control>
               <Accordion.Panel>
-                Oui, toutes vos données sont hébergées sur des serveurs sécurisés et cryptées. Nous effectuons des sauvegardes automatiques toutes les 24 heures.
+                La protection de vos données scolaires est notre priorité. Nous utilisons un cryptage de bout en bout (SSL) et vos informations sont répliquées en temps réel sur plusieurs serveurs sécurisés pour garantir une disponibilité totale et une protection contre toute perte technique.
               </Accordion.Panel>
             </Accordion.Item>
 
-            <Accordion.Item value="pricing">
-              <Accordion.Control icon={<IconClock size={20} color="teal"/>}>
-                Combien de temps faut-il pour tout installer ?
+            <Accordion.Item value="setup" style={{ border: '1px solid var(--mantine-color-gray-3)' }}>
+              <Accordion.Control icon={<IconFileImport size={20} color="var(--mantine-color-blue-6)"/>}>
+                Puis-je importer mes données existantes depuis Excel ?
               </Accordion.Control>
               <Accordion.Panel>
-                L'inscription prend 2 minutes. Vous pouvez commencer à importer vos listes d'élèves et configurer vos classes immédiatement.
+                Absolument. Vous n'avez pas besoin de tout ressaisir manuellement. EduManager inclut un outil d'importation intelligent qui reconnaît vos fichiers Excel pour intégrer vos listes d'élèves, de parents et de classes en quelques clics.
               </Accordion.Panel>
             </Accordion.Item>
+
+            <Accordion.Item value="mobile" style={{ border: '1px solid var(--mantine-color-gray-3)' }}>
+              <Accordion.Control icon={<IconDevices size={20} color="var(--mantine-color-indigo-6)"/>}>
+                L'application est-elle accessible pour les parents ?
+              </Accordion.Control>
+              <Accordion.Panel>
+                Oui, EduManager propose un espace dédié aux parents. Ils peuvent consulter les notes, le rang et les frais de scolarité de leurs enfants depuis n'importe quel smartphone ou tablette, renforçant ainsi le lien entre l'école et les familles.
+              </Accordion.Panel>
+            </Accordion.Item>
+
+            <Accordion.Item value="support" style={{ border: '1px solid var(--mantine-color-gray-3)' }}>
+              <Accordion.Control icon={<IconHeadset size={20} color="var(--mantine-color-cyan-6)"/>}>
+                Quel accompagnement proposez-vous en cas de besoin ?
+              </Accordion.Control>
+              <Accordion.Panel>
+                Nous proposons une assistance par chat intégrée directement dans votre dashboard, ainsi que des guides interactifs pour vous aider à tirer le meilleur parti de chaque fonctionnalité.
+              </Accordion.Panel>
+            </Accordion.Item>
+
           </Accordion>
         </Box>
 
@@ -297,11 +323,13 @@ export default function HomePage() {
               <IconBackpack size={24} color="gray" />
               <Text fw={700} c="dimmed">EduManager</Text>
             </Group>
-            <Text c="dimmed" fz="sm" ta="center">
-              Le futur de la gestion scolaire est ici.
+            <Text c="dimmed" fz="sm" ta="center" maw={400} style={{ lineHeight: 1.5 }}>
+              Simplifiez votre gestion quotidienne et offrez à votre établissement 
+              l'outil qu'il mérite pour briller.
             </Text>
-            <Text c="dimmed" fz="xs" mt="md">
-              © 2026 EduManager. Tous droits réservés.
+
+            <Text fz="xs" c="dimmed" mt="md">
+              © 2026 EduManager. Fait avec passion pour l'éducation.
             </Text>
           </Stack>
         </Box>
