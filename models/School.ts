@@ -1,7 +1,7 @@
 import mongoose, { Schema, model, models } from 'mongoose';
 
 const SchoolSchema = new Schema({
-	name: {type: String, required: true},
+	name: {type: String, required: true, unique: true},
 	address: {type: String},
 	phone: {type: String, required: true, unique: true},
 	email: {type: String, unique: true},

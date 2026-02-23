@@ -10,14 +10,14 @@ const paymentSchema = new Schema({
   amount: { type: Number, required: true },
   totalExpected: { type: Number },
   remainingAfter: { type: Number },
-  reference: { type: String, unique: true },
+  reference: { type: String },
   date: { type: Date, default: Date.now },
   method: { 
     type: String, 
     enum: ['Espèces', 'Chèque', 'Virement', 'Mobile Money', 'TPE', 'MVola', 'Airtel Money'], 
     default: 'Espèces' 
   },
-  note: { type: String }
+  note: { type: String },
 }, { timestamps: true });
 
 paymentSchema.index({ student: 1, type: 1, month: 1, academicYear: 1 }, { 
