@@ -1,9 +1,10 @@
+
 import mongoose, { Schema, model, models } from 'mongoose';
 
-const paymentSchema = new mongoose.Schema({
-  student: { type: mongoose.Schema.Types.ObjectId, ref: 'Student', required: true },
-  schoolId: { type: mongoose.Schema.Types.ObjectId, ref: 'School', required: true },
-  academicYear: { type: mongoose.Schema.Types.ObjectId, ref: 'Annee', required: true },
+const paymentSchema = new Schema({
+  student: { type: Schema.Types.ObjectId, ref: 'Student', required: true },
+  schoolId: { type: Schema.Types.ObjectId, ref: 'School', required: true },
+  academicYear: { type: Schema.Types.ObjectId, ref: 'Annee', required: true },
   type: { type: String, required: true },
   month: {type: String, },
   amount: { type: Number, required: true },
