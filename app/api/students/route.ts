@@ -85,24 +85,19 @@ export async function GET(req: Request) {
     const classId = searchParams.get('classId');
     const academicYear = searchParams.get('academicYear');
     const schoolId = searchParams.get('schoolId');
-    
-    const query: any = {};
 
-    if (schoolId && mongoose.Types.ObjectId.isValid(schoolId)) {
-      query.schoolId = schoolId;
+    if (!schoolId) {
+       return NextResponse.json({ error: "schoolId manquant" }, { status: 400 });
     }
     
-    if (classId && mongoose.Types.ObjectId.isValid(classId)) {
-      query.class = classId;
-    }
+    const query: any = { schoolId: schoolId };
 
-    if (academicYear && mongoose.Types.ObjectId.isValid(academicYear)) {
+    if (academicYear && academicYear !== 'null') {
       query.academicYear = academicYear;
     }
 
-    if (schoolId && !mongoose.Types.ObjectId.isValid(schoolId)) {
-       console.error("ID Ecole invalide reçu:", schoolId);
-       return NextResponse.json([]);
+    if (classId && classId !== 'null') {
+      query.class = classId;
     }
 
     const students = await Student.find(query)
@@ -113,7 +108,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json(students);
   } catch (error: any) {
-    console.error("Erreur GET Students:", error);
-    return NextResponse.json([], { status: 500 });
+    console.error("DEBUG API ERROR:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
