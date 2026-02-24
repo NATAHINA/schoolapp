@@ -169,17 +169,7 @@ export default function GradesPage() {
             </SimpleGrid>
           </Paper>
 
-          <Button 
-            type="submit" 
-            size="md"
-            color="teal" 
-            fullWidth 
-            leftSection={<IconDeviceFloppy size={20}/>}
-            disabled={!form.values.period || !form.values.subjectId}
-          >
-            Enregistrer le {form.values.period}
-          </Button>
-
+          
           {students.length > 0 ? (
             <Stack>
               <Paper withBorder radius="md" p={0} style={{ overflow: 'hidden' }}>
@@ -235,6 +225,18 @@ export default function GradesPage() {
               <Text c="dimmed">Aucun élève trouvé dans cette classe pour l'année active.</Text>
             </Paper>
           )}
+
+          <Button 
+            type="submit" 
+            size="md"
+            color="teal" 
+            fullWidth 
+            leftSection={<IconDeviceFloppy size={20}/>}
+            disabled={!form.values.period || !form.values.subjectId}
+          >
+            Enregistrer le {form.values.period}
+          </Button>
+
         </form>
       </Stack>
     </Box>
