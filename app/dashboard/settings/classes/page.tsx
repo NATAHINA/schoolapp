@@ -22,9 +22,12 @@ export default function ClassesPage() {
   const [className, setClassName] = useState('');
 
   const fetchClasses = async () => {
+    const activeSchoolId = localStorage.getItem('school_id');
+    if (!activeSchoolId) return;
+    
     setLoading(true);
     try {
-      const res = await fetch('/api/settings/classes');
+      const res = await fetch(`/api/settings/classes?schoolId=${activeSchoolId}`);
       const data = await res.json();
       setClasses(data);
     } catch (error) {
