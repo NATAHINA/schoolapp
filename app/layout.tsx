@@ -12,6 +12,10 @@ dayjs.locale('fr');
 
 export const metadata = {
   title: 'EduManager',
+  icons: {
+    icon: "/backpack.svg",
+    apple: "/backpack.svg",
+  },
   description: 'Application de gestion multi-écoles',
 }
 

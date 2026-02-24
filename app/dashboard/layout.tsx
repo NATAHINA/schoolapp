@@ -12,7 +12,8 @@ import {
   IconDashboard, IconUsers, IconSchool, IconChartBar, IconSettings,
   IconSun, IconMoon, IconLogout, IconUsersGroup, IconBellRinging,IconSettingsDollar,
   IconBooks, IconHierarchy2, IconCalendarEvent, IconUser, IconAffiliate, IconBackpack,
-  IconClockCheck, IconMenu4, IconChartDots, IconChecklist, IconFileDescription, IconCash
+  IconClockCheck, IconMenu4, IconChartDots, IconChecklist, IconFileDescription, 
+  IconCash, IconInfoCircle
 } from '@tabler/icons-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -62,6 +63,7 @@ const menus = {
         { link: '/dashboard/settings/subjects', label: 'Matières', icon: IconBooks },
       ]
     },
+    { link: '/dashboard/about', label: 'À propos', icon: IconInfoCircle },
   ],
   PARENT: [
     { link: '/dashboard/parent', label: 'Mes Enfants', icon: IconUsersGroup },
