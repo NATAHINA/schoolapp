@@ -14,7 +14,7 @@ export async function GET(req: Request) {
   }
 
   try {
-    const subjects = await Subject.find(query).sort({ name: 1 });
+    const subjects = await Subject.find({ schoolId }).sort({ name: 1 });
     return NextResponse.json(subjects);
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
