@@ -233,7 +233,7 @@ export default function TeacherAttendancePage() {
           highlightOnHover 
           style={{ minWidth: rem(750) }}
         >
-          <Table.Thead bg="gray.0">
+          <Table.Thead>
             <Table.Tr>
               <Table.Th style={{ width: rem(200) }}>Enseignant</Table.Th>
               <Table.Th style={{ width: rem(300) }}>Statut</Table.Th>

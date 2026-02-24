@@ -175,7 +175,7 @@ export default function GradesPage() {
               <Paper withBorder radius="md" p={0} style={{ overflow: 'hidden' }}>
                 <ScrollArea h={500} scrollbarSize={6}>
                   <Table verticalSpacing="sm" horizontalSpacing="md" highlightOnHover style={{ minWidth: rem(700) }}>
-                    <Table.Thead bg="gray.0" style={{ position: 'sticky', top: 0, zIndex: 1 }}>
+                    <Table.Thead style={{ position: 'sticky', top: 0, zIndex: 1 }}>
                       <Table.Tr>
                         <Table.Th>Élève</Table.Th>
                         <Table.Th style={{ width: rem(130) }}>Note / 20</Table.Th>
@@ -221,7 +221,7 @@ export default function GradesPage() {
               
             </Stack>
           ) : form.values.classId && !loading && (
-            <Paper p="xl" withBorder radius="md" bg="gray.0" style={{ textAlign: 'center' }}>
+            <Paper p="xl" withBorder radius="md" style={{ textAlign: 'center' }}>
               <Text c="dimmed">Aucun élève trouvé dans cette classe pour l'année active.</Text>
             </Paper>
           )}

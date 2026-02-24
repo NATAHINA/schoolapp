@@ -60,7 +60,7 @@ export default function PaymentsPage() {
             </Group>
 
             <SimpleGrid cols={{ base: 1, sm: 2 }} mb="xl">
-              <Paper withBorder p="md" radius="md" bg="gray.0">
+              <Paper withBorder p="md" radius="md">
                 <Group>
                   <ThemeIcon color="teal" size="lg" radius="md">
                     <IconCheck size={20} />
@@ -72,7 +72,7 @@ export default function PaymentsPage() {
                 </Group>
               </Paper>
               
-              <Paper withBorder p="md" radius="md" bg="gray.0">
+              <Paper withBorder p="md" radius="md">
                 <Group>
                   <ThemeIcon color="orange" size="lg" radius="md">
                     <IconReceipt2 size={20} />

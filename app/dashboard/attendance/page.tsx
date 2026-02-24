@@ -199,7 +199,7 @@ export default function AttendancePage() {
       {selectedClass && (
         <Paper withBorder radius="md" shadow="sm" style={{ overflowX: 'auto' }}>
           <Table verticalSpacing="md">
-            <Table.Thead bg="gray.0">
+            <Table.Thead>
               <Table.Tr>
                 <Table.Th>Élève</Table.Th>
                 <Table.Th>Statut</Table.Th>

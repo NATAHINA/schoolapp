@@ -96,7 +96,7 @@ export default function AttendanceStatsPage() {
 
         <Paper withBorder radius="md" p="md">
           <Table verticalSpacing="sm" striped highlightOnHover>
-            <Table.Thead bg="gray.0"><Table.Tr>
+            <Table.Thead><Table.Tr>
               <Table.Th>Date & Classe</Table.Th><Table.Th>Élève</Table.Th>
               <Table.Th>Matière</Table.Th><Table.Th>Statut</Table.Th>
             </Table.Tr></Table.Thead>

@@ -184,7 +184,7 @@ export default function ReportsPage() {
           { label: 'Moy. Max', value: stats.maxAvg.toFixed(2), color: 'indigo', sub: 'Majorant' },
           { label: 'Moy. Min', value: stats.minAvg.toFixed(2), color: 'orange', sub: 'Minorant' },
         ].map((s, i) => (
-          <Paper key={i} withBorder p="md" radius="md" bg="gray.0">
+          <Paper key={i} withBorder p="md" radius="md">
             <Text fz="xs" c="dimmed" fw={700} tt="uppercase">{s.label}</Text>
             <Text fz="xl" fw={900} c={s.color}>{s.value}</Text>
             <Text fz="calc(10px)" c="dimmed">{s.sub}</Text>
@@ -196,7 +196,7 @@ export default function ReportsPage() {
       <Paper withBorder radius="md" style={{ overflow: 'hidden' }}>
         <ScrollArea h={500}>
           <Table verticalSpacing="sm" horizontalSpacing="md" highlightOnHover style={{ minWidth: 700 }}>
-            <Table.Thead bg="gray.0">
+            <Table.Thead>
               <Table.Tr>
                 <Table.Th style={{ width: 80 }}>Rang</Table.Th>
                 <Table.Th>Élève</Table.Th>

@@ -171,7 +171,7 @@ export default function FeeConfigPage() {
           
           <ScrollArea w="100%">
             <Table striped highlightOnHover verticalSpacing="xs" style={{ minWidth: 500 }}>
-              <Table.Thead bg="gray.0">
+              <Table.Thead>
                 <Table.Tr>
                   <Table.Th>Classe / Motif</Table.Th>
                   <Table.Th ta="right">Montant</Table.Th>
