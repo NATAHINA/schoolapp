@@ -61,7 +61,12 @@ export default function AttendancePage() {
 
   useEffect(() => {
     if (selectedClass) {
-      fetch(`/api/students?classId=${selectedClass}`)
+      const schoolId = localStorage.getItem('school_id');
+      const academicYear = localStorage.getItem('active_annee_id');
+
+      if (!schoolId && !academicYear) return;
+
+      fetch(`/api/students?classId=${selectedClass}&schoolId=${schoolId}&academicYear=${academicYear}`)
         .then(res => res.json())
         .then(data => setStudents(Array.isArray(data) ? data : []));
     }
