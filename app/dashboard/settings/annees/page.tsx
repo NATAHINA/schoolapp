@@ -54,7 +54,7 @@ export default function AnneesPage() {
     try {
       const method = editingAnnee ? 'PUT' : 'POST';
       const url = editingAnnee 
-        ? `/api/settings/annee?id=${editingAnnee._id}`
+        ? `/api/settings/annee/${editingAnnee._id}`
         : '/api/settings/annee';
 
       const res = await fetch(url, {
