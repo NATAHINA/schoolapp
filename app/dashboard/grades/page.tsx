@@ -54,11 +54,18 @@ export default function GradesPage() {
   useEffect(() => {
     const fetchStudents = async () => {
       if (!form.values.classId) return;
+      const activeSchoolId = localStorage.getItem('school_id');
       const anneeId = localStorage.getItem('active_annee_id');
+
+      if (!activeSchoolId || !anneeId) {
+        notifications.show({ title: 'Erreur', message: 'École ou Année scolaire non identifiée', color: 'red' });
+        setLoading(false);
+        return;
+    }
 
       setLoading(true);
       try {
-        const res = await fetch(`/api/students?classId=${form.values.classId}&academicYear=${anneeId}`);
+        const res = await fetch(`/api/students?classId=${form.values.classId}&academicYear=${anneeId}&schoolId=${activeSchoolId}`);
         const data = await res.json();
 
         const newGrades: any = {};

@@ -42,16 +42,17 @@ export default function ParentsManagementPage() {
     setLoading(true);
     try {
       const activeSchoolId = localStorage.getItem('school_id'); // Vérifiez bien si c'est school_id ou schoolId
+      const activeAnneeId = localStorage.getItem('active_annee_id');
 
-      if (!activeSchoolId) {
-        console.error("Pas de schoolId trouvé");
+      if (!activeSchoolId || !activeAnneeId) {
+        console.error("École ou Année scolaire non identifiée");
         return;
       }
 
       // 2. Envoyer le schoolId dans l'URL
       const [resParents, resStudents, resClasses] = await Promise.all([
         fetch(`/api/parents?schoolId=${activeSchoolId}&t=${Date.now()}`), 
-        fetch(`/api/students?schoolId=${activeSchoolId}`), // Filtrez aussi les étudiants par école
+        fetch(`/api/students?schoolId=${activeSchoolId}&academicYear=${activeAnneeId}`), // Filtrez aussi les étudiants par école
         fetch(`/api/settings/classes?schoolId=${activeSchoolId}`)
       ]);
       

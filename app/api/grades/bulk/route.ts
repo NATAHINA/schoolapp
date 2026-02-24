@@ -11,13 +11,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Données manquantes (Classe ou Année)" }, { status: 400 });
     }
 
-    // const bulkOps = grades.map((g: any) => ({
-    //   updateOne: {
-    //     filter: { student: g.studentId, subject: subjectId, class: classId, period, schoolId, academicYear },
-    //     update: { $set: { value: g.value, comment: g.comment } },
-    //     upsert: true,
-    //   },
-    // }));
 
     const bulkOps = grades.map((g: any) => ({
       updateOne: {

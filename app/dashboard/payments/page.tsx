@@ -81,7 +81,7 @@ export default function PaymentsPage() {
 
     try {
       const [resS, resP, resC, resCl] = await Promise.all([
-        fetch(`/api/students?schoolId=${schoolId}`),
+        fetch(`/api/students?schoolId=${schoolId}&academicYear=${academicYear}`),
         fetch(`/api/payments?schoolId=${schoolId}&academicYear=${academicYear}`),
         fetch(`/api/settings/fee-config?schoolId=${schoolId}&academicYear=${academicYear}`),
         fetch(`/api/settings/classes?schoolId=${schoolId}`)
