@@ -108,7 +108,8 @@ export async function GET(req: Request) {
     const students = await Student.find(query)
       .populate('class', 'name')
       .populate('academicYear', 'name')
-      .sort({ name: 1 });
+      .sort({ name: 1 })
+      .lean();
 
     return NextResponse.json(students);
   } catch (error: any) {
