@@ -29,9 +29,12 @@ export default function SubjectsPage() {
   const itemsPerPage = 15;
 
   const fetchSubjects = async () => {
+    const activeSchoolId = localStorage.getItem('school_id');
+    if (!activeSchoolId) return;
+
     setLoading(true);
     try {
-      const res = await fetch('/api/settings/subjects');
+      const res = await fetch(`/api/settings/subjects?schoolId=${activeSchoolId}`);
       const data = await res.json();
       setSubjects(data);
     } finally {

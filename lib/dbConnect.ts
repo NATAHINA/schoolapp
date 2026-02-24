@@ -8,6 +8,7 @@ import '@/models/School';
 import '@/models/User';
 import '@/models/Parent';
 import '@/models/Payment';
+import '@/models/Subject';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 

@@ -4,12 +4,16 @@ import Subject from '@/models/Subject';
 
 // Récupérer toutes les subjects
 export async function GET(req: Request) {
-  try {
-    await dbConnect();
-    const { searchParams } = new URL(req.url);
-    const schoolId = searchParams.get('schoolId');
+  await dbConnect();
 
-    const query = schoolId ? { schoolId } : {};
+  const { searchParams } = new URL(req.url);
+  const schoolId = searchParams.get('schoolId');
+
+  if (!schoolId) {
+    return NextResponse.json({ error: "schoolId manquant" }, { status: 400 });
+  }
+
+  try {
     const subjects = await Subject.find(query).sort({ name: 1 });
     return NextResponse.json(subjects);
   } catch (error: any) {
