@@ -133,7 +133,7 @@ export default function AboutPage() {
                   size="xs" 
                   leftSection={<IconBrandFacebook size={16} />}
                 >
-                  Suivre sur Facebook
+                  Facebook
                 </Button>
                 
               </Group>
