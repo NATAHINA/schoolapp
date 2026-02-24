@@ -52,7 +52,7 @@ export default function ParentsManagementPage() {
       const [resParents, resStudents, resClasses] = await Promise.all([
         fetch(`/api/parents?schoolId=${activeSchoolId}&t=${Date.now()}`), 
         fetch(`/api/students?schoolId=${activeSchoolId}`), // Filtrez aussi les étudiants par école
-        fetch('/api/settings/classes')
+        fetch(`/api/settings/classes?schoolId=${activeSchoolId}`)
       ]);
       
       const parentsData = await resParents.json();
