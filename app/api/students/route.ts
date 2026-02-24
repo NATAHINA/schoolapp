@@ -3,6 +3,7 @@ import Student from '@/models/Student';
 import Parent from '@/models/Parent';
 import User from '@/models/User';
 import Class from '@/models/Class';
+import Annee from '@/models/Annee';
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';

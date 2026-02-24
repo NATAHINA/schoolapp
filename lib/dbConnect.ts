@@ -1,6 +1,14 @@
 import mongoose from 'mongoose';
 import { runMigrations } from './migrate';
 
+import '@/models/Annee';
+import '@/models/Student';
+import '@/models/Class';
+import '@/models/School';
+import '@/models/User';
+import '@/models/Parent';
+import '@/models/Payment';
+
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if(!MONGODB_URI){

@@ -1,10 +1,11 @@
 
 import mongoose from 'mongoose';
+import Annee from '@/models/Annee';
+import Student from '@/models/Student';
 
 export async function runMigrations() {
-  const Student = mongoose.models.Student || (await import('@/models/Student')).default;
-
-  console.log('--- Migration en cours ---');
+  console.log('--- Vérification des modèles pour migration ---');
+  
   try {
     const result = await Student.updateMany(
       { 
@@ -22,7 +23,7 @@ export async function runMigrations() {
         } 
       }
     );
-    console.log(`--- Migration Student terminée : ${result.modifiedCount} documents mis à jour ---`);
+    console.log(`--- Migration terminée : ${result.modifiedCount} documents mis à jour ---`);
   } catch (err) {
     console.error('Erreur migration:', err);
   }
