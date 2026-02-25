@@ -83,7 +83,7 @@ export default function AttendanceStatsPage() {
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="name" />
                 <YAxis />
-                <Tooltip cursor={{ fill: 'rgba(0, 0, 0, 0.05)', radius: [4, 4, 0, 0] }} />
+                <Tooltip cursor={{ fill: 'rgba(0, 0, 0, 0.05)'}} />
                 <Bar dataKey="total" radius={[4, 4, 0, 0]} barSize={40}>
                   {chartData.map((entry, index) => (
                     <Cell key={index} fill={index === 0 ? '#fa5252' : '#228be6'} />
