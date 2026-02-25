@@ -11,7 +11,7 @@ import {
 } from '@tabler/icons-react';
 
 export default function AboutPage() {
-  const CURRENT_VERSION = "1.0-stable";
+  const CURRENT_VERSION = "1.2-stable";
   const RELEASE_DATE = "Février 2026";
 
   const modules = [

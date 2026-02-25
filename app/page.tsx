@@ -14,7 +14,7 @@ import {
   ActionIcon,Accordion, Overlay,
   useMantineColorScheme, 
   useComputedColorScheme,
-  rem, Tooltip, Box, Stack 
+  rem, Tooltip, Box, Stack, Anchor 
 } from '@mantine/core';
 import { 
   IconDeviceMobileMessage, 
@@ -327,6 +327,18 @@ export default function HomePage() {
               Simplifiez votre gestion quotidienne et offrez à votre établissement 
               l'outil qu'il mérite pour briller.
             </Text>
+
+            <Group gap="xs">
+              <Anchor href="/cgu" size="sm" c="dimmed" underline="hover">
+                CGU
+              </Anchor>
+              
+              <Text c="dimmed" size="sm">•</Text>
+              
+              <Anchor href="/confidentialite" size="sm" c="dimmed" underline="hover">
+                Politique de Confidentialité
+              </Anchor>
+            </Group>
 
             <Text fz="xs" c="dimmed" mt="md">
               © 2026 EduManager. Fait avec passion pour l'éducation.
