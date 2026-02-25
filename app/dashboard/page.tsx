@@ -175,7 +175,7 @@ export default function DashboardPage() {
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: '#888', fontSize: 11 }} />
 
                 <Tooltip 
-                  cursor={{ fill: '#f8f9fa' }} 
+                  cursor={{ fill: 'rgba(0, 0, 0, 0.05)', radius: [4, 4, 0, 0] }}
                   formatter={(val: any) => `${val?.toLocaleString() ?? 0} Ar`} 
                 />
 

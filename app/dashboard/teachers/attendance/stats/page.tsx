@@ -89,7 +89,7 @@ export default function TeacherStatsPage() {
                       <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12 }} />
                       <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12 }} />
                       <Tooltip 
-                        cursor={{fill: '#f8f9fa'}} 
+                        cursor={{ fill: 'rgba(0, 0, 0, 0.05)', radius: [4, 4, 0, 0] }}
                         contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                       />
                       <Legend iconType="circle" />

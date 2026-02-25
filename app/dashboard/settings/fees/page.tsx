@@ -106,7 +106,7 @@ export default function FeeConfigPage() {
       <SimpleGrid cols={{ base: 1, md: 1, lg: 2 }} spacing="lg">
         {/* Formulaire */}
         <Paper withBorder p={{ base: 'sm', sm: 'md' }} radius="md" shadow="sm">
-          <Title order={4} mb="md" c="blue">{form.id ? 'Modifier le Tarif' : 'Nouveau Tarif'}</Title>
+          <Title order={4} mb="md" c="teal">{form.id ? 'Modifier le Tarif' : 'Nouveau Tarif'}</Title>
           <Stack gap="sm">
             <Select 
               label="Classe concernée" 
@@ -152,7 +152,7 @@ export default function FeeConfigPage() {
               leftSection={form.id ? <IconEdit size={18}/> : <IconPlus size={18}/>} 
               onClick={handleSubmit} 
               loading={loading}
-              color={form.id ? "orange" : "blue"}
+              color={form.id ? "orange" : "teal"}
               fullWidth
             >
               {form.id ? "Mettre à jour" : "Ajouter le tarif"}

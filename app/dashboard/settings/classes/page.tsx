@@ -138,7 +138,7 @@ export default function ClassesPage() {
         
         <ScrollArea h={500} scrollbarSize={6}>
           <Table verticalSpacing="sm" horizontalSpacing="md" highlightOnHover>
-            <Table.Thead bg="gray.0">
+            <Table.Thead>
               <Table.Tr>
                 <Table.Th>Nom de la classe</Table.Th>
                 <Table.Th style={{ width: 100 }}>Actions</Table.Th>
@@ -159,7 +159,7 @@ export default function ClassesPage() {
                   <Table.Tr key={cls._id}>
                     <Table.Td>
                       <Group gap="sm">
-                        <IconSchool size={16} color="var(--mantine-color-blue-filled)" />
+                        <IconSchool size={16} color="var(--mantine-color-teal-filled)" />
                         <Text fw={500} size="sm">{cls.name}</Text>
                       </Group>
                     </Table.Td>

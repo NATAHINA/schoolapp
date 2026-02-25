@@ -61,7 +61,7 @@ export default function AttendanceStatsPage() {
         </Group>
 
         <SimpleGrid cols={{ base: 1, sm: 3 }}>
-          <Paper withBorder p="md" radius="md">
+          <Paper withBorder p="md" radius="md" style={{ borderLeft: '4px solid #364FC7' }}>
             <Text fz="xs" c="dimmed" fw={700}>TOTAL ABSENCES</Text>
             <Text fz="xl" fw={900}>{data.length}</Text>
           </Paper>
@@ -83,7 +83,7 @@ export default function AttendanceStatsPage() {
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="name" />
                 <YAxis />
-                <Tooltip />
+                <Tooltip cursor={{ fill: 'rgba(0, 0, 0, 0.05)', radius: [4, 4, 0, 0] }} />
                 <Bar dataKey="total" radius={[4, 4, 0, 0]} barSize={40}>
                   {chartData.map((entry, index) => (
                     <Cell key={index} fill={index === 0 ? '#fa5252' : '#228be6'} />

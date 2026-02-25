@@ -111,7 +111,7 @@ export default function AnneesPage() {
         
         <ScrollArea h={500} scrollbarSize={6}>
           <Table verticalSpacing="md" horizontalSpacing="lg" highlightOnHover style={{ minWidth: 450 }}>
-            <Table.Thead bg="gray.0">
+            <Table.Thead>
               <Table.Tr>
                 <Table.Th>Année scolaire</Table.Th>
                 <Table.Th>Statut</Table.Th>

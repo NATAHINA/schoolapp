@@ -388,7 +388,7 @@ export default function PaymentsPage() {
       <Paper withBorder p="md" radius="md">
         <Group justify="space-between">
           <Title order={4}>Suivi des Impayés</Title>
-          <Group>
+          <Group mb="sm">
             <Select placeholder="Classe" data={classes} value={filterClass} onChange={setFilterClass} clearable size="xs" />
             <Select placeholder="Mois" data={MONTHS} value={filterMonth} onChange={setFilterMonth} clearable size="xs" />
             <Button leftSection={<IconPrinter size={16} />} 
@@ -401,7 +401,7 @@ export default function PaymentsPage() {
         </Group>
         <ScrollArea h={300}>
           <Table striped>
-            <Table.Thead bg="gray.0">
+            <Table.Thead>
               <Table.Tr>
                 <Table.Th>Élève</Table.Th>
                 <Table.Th>Détails</Table.Th>

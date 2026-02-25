@@ -44,17 +44,17 @@ export default function AboutPage() {
   return (
     <Stack gap="xl" py="md">
       {/* En-tête de version */}
-      <Paper withBorder radius="md" p="xl" bg="var(--mantine-color-blue-light)">
+      <Paper withBorder radius="md" p="xl" bg="var(--mantine-color-teal-light)">
         <Group justify="space-between">
           <Stack gap={0}>
             <Group gap="xs">
-              <IconRocket color="var(--mantine-color-blue-filled)" />
+              <IconRocket color="var(--mantine-color-teal-filled)" />
               <Title order={2}>EduManager</Title>
             </Group>
             <Text c="dimmed" fz="sm">Solution intégrée de gestion scolaire pour établissements modernes.</Text>
           </Stack>
           <Stack align="flex-end" gap={5}>
-            <Badge size="lg" variant="filled" color="blue">Version {CURRENT_VERSION}</Badge>
+            <Badge size="lg" variant="filled" color="teal">Version {CURRENT_VERSION}</Badge>
             <Text fz="xs" c="dimmed">Dernière mise à jour : {RELEASE_DATE}</Text>
           </Stack>
         </Group>
