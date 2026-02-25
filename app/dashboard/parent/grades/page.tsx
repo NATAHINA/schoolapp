@@ -122,7 +122,7 @@ export default function GradesPage() {
                     {report.grades && report.grades.length > 0 ? (
                       <Paper withBorder radius="md" style={{ overflow: 'hidden' }}>
                         <Table verticalSpacing="md" highlightOnHover striped>
-                          <Table.Thead bg="gray.0">
+                          <Table.Thead>
                             <Table.Tr>
                               <Table.Th>Matière</Table.Th>
                               <Table.Th ta="center">Note / 20</Table.Th>
