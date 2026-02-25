@@ -2,7 +2,14 @@ import mongoose from 'mongoose';
 import { runMigrations } from './migrate';
 
 import '@/models/Annee';
+import '@/models/Attendance';
+import '@/models/ClassSubject';
+import '@/models/FeeConfig';
+import '@/models/Grade';
+import '@/models/Report';
 import '@/models/Student';
+import '@/models/Teacher';
+import '@/models/TeacherAttendance';
 import '@/models/Class';
 import '@/models/School';
 import '@/models/User';

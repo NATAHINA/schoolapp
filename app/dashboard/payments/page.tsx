@@ -296,6 +296,7 @@ export default function PaymentsPage() {
                 {chartData.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index]} />)}
               </Pie>
               <Tooltip 
+                contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                 formatter={(value: any) => {
                   const amount = value ?? 0;
                   return `${amount.toLocaleString()} Ar`;

@@ -176,6 +176,7 @@ export default function DashboardPage() {
 
                 <Tooltip 
                   cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
+                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                   formatter={(val: any) => `${val?.toLocaleString() ?? 0} Ar`} 
                 />
 
