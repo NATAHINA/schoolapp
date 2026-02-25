@@ -85,6 +85,47 @@ export default function GradesPage() {
     fetchStudents();
   }, [form.values.classId]);
 
+
+
+  useEffect(() => {
+    const fetchExistingGrades = async () => {
+      if (!form.values.classId || !form.values.subjectId || !form.values.period) return;
+
+      const schoolId = localStorage.getItem('school_id');
+      const academicYear = localStorage.getItem('active_annee_id');
+
+      try {
+        setLoading(true);
+        const res = await fetch(
+          `/api/grades/bulk/?classId=${form.values.classId}&subjectId=${form.values.subjectId}&period=${form.values.period}&academicYear=${academicYear}&schoolId=${schoolId}`
+        );
+        const existingGrades = await res.json();
+
+        const gradesMap: Record<string, { value: number | string; comment: string }> = {};
+        
+        students.forEach(s => {
+          gradesMap[s._id] = { value: '', comment: '' };
+        });
+
+        existingGrades.forEach((g: any) => {
+          if (gradesMap[g.student]) {
+            gradesMap[g.student] = { value: g.value, comment: g.comment || '' };
+          }
+        });
+
+        form.setFieldValue('grades', gradesMap);
+      } catch (error) {
+        console.error("Erreur chargement notes:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchExistingGrades();
+  }, [form.values.classId, form.values.subjectId, form.values.period, students.length]); 
+
+
+
   const handleSubmit = async (values: typeof form.values) => {
     if (!values.subjectId || !values.period) {
       notifications.show({ message: 'Sélectionnez une matière et un bimestre', color: 'orange', icon: <IconInfoCircle size={18}/> });
@@ -121,6 +162,9 @@ export default function GradesPage() {
       setLoading(false);
     }
   };
+
+
+
 
   return (
     <Box pos="relative">

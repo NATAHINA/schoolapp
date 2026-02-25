@@ -44,3 +44,24 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Erreur lors de l'enregistrement" }, { status: 500 });
   }
 }
+
+
+export async function GET(req: Request) {
+  try {
+    await dbConnect();
+    const { searchParams } = new URL(req.url);
+    
+    const filter = {
+      class: searchParams.get('classId'),
+      subject: searchParams.get('subjectId'),
+      period: searchParams.get('period'),
+      academicYear: searchParams.get('academicYear'),
+      schoolId: searchParams.get('schoolId'),
+    };
+
+    const grades = await Grade.find(filter);
+    return NextResponse.json(grades);
+  } catch (error) {
+    return NextResponse.json({ error: "Erreur lecture notes" }, { status: 500 });
+  }
+}
