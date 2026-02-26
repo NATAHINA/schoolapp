@@ -194,13 +194,11 @@ export default function DashboardPage() {
         />
       </SimpleGrid>
 
-      {/* --- GRAPHIQUES --- */}
       <SimpleGrid cols={{ base: 1, md: 2 }} spacing="xl">
         
-        {/* Graphique 1 : Évolution Inscriptions */}
         <Paper withBorder p="lg" radius="md" shadow="sm">
           <Group justify="space-between" mb="xl">
-            <Title order={4}>Inscriptions (7 derniers jours)</Title>
+            <Title order={4}>Inscriptions</Title>
             <IconTrendingUp size={20} color="gray" />
           </Group>
           <div style={{ height: 280 }}>
@@ -216,9 +214,8 @@ export default function DashboardPage() {
           </div>
         </Paper>
 
-        {/* Graphique 2 : Revenus par Mois */}
         <Paper withBorder p="lg" radius="md" shadow="sm">
-          <Title order={4} mb="xl">Revenus Mensuels (Ar)</Title>
+          <Title order={4} mb="xl">Revenus (Ar)</Title>
           <div style={{ height: 280 }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data.revenueData}>
