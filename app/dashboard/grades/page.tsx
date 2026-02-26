@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { 
   Table, NumberInput, Button, Select, Paper, Title, 
   SimpleGrid, rem, TextInput, LoadingOverlay, Box, 
@@ -8,7 +8,10 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
-import { IconDeviceFloppy, IconUserCircle, IconInfoCircle } from '@tabler/icons-react';
+import { IconDeviceFloppy, IconUserCircle, IconInfoCircle, IconPrinter, IconFileSpreadsheet } from '@tabler/icons-react';
+import { useReactToPrint } from 'react-to-print';
+import { GradesListPrint } from '@/components/GradesListPrint';
+import * as XLSX from 'xlsx';
 
 export default function GradesPage() {
   const [students, setStudents] = useState<any[]>([]);
@@ -16,6 +19,14 @@ export default function GradesPage() {
   const [classList, setClassList] = useState<{ value: string; label: string }[]>([]);
   const [subjectList, setSubjectList] = useState<{ value: string; label: string }[]>([]);
   const [loadingData, setLoadingData] = useState(true);
+  const [schoolInfo, setSchoolInfo] = useState<any>(null);
+  const [academicYearName, setAcademicYearName] = useState('');
+
+  const printRef = useRef<HTMLDivElement>(null);
+  
+  const handlePrint = useReactToPrint({
+    contentRef: printRef,
+  });
 
   const BIMESTRES = ['Bimestre 1', 'Bimestre 2', 'Bimestre 3', 'Bimestre 4', 'Bimestre 5', 'Bimestre 6'];
 
@@ -28,28 +39,59 @@ export default function GradesPage() {
     },
   });
 
+  const exportToExcel = () => {
+    if (students.length === 0) return;
+
+    const excelData = students.map((student, index) => ({
+      'N°': student?.matricule || index + 1,
+      'Nom et Prénoms': student.name,
+      'Note / 20': form.values.grades[student._id]?.value || '',
+      'Observations': form.values.grades[student._id]?.comment || '',
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(excelData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Notes");
+
+    const maxWidth = 40; 
+    worksheet['!cols'] = [{ wch: 20 }, { wch: maxWidth }, { wch: 10 }, { wch: 30 }];
+
+    const fileName = `Notes_${classList.find(c => c.value === form.values.classId)?.label}_${form.values.period}.xlsx`;
+    XLSX.writeFile(workbook, fileName);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const schoolId = localStorage.getItem('school_id');
-        const [resClasses, resSubjects] = await Promise.all([
+        const anneeId = localStorage.getItem('active_annee_id');
+
+        const [resClasses, resSubjects, resSchool, resAnnee] = await Promise.all([
           fetch(`/api/settings/classes?schoolId=${schoolId}`),
-          fetch(`/api/settings/subjects?schoolId=${schoolId}`)
+          fetch(`/api/settings/subjects?schoolId=${schoolId}`),
+          fetch(`/api/schools/${schoolId}`),
+          fetch(`/api/settings/annee/${anneeId}`)
         ]);
 
         const classes = await resClasses.json();
         const subjects = await resSubjects.json();
+        const schoolData = await resSchool.json();
+        const anneeData = await resAnnee.json();
 
         setClassList(classes.map((c: any) => ({ value: c._id, label: c.name })));
         setSubjectList(subjects.map((s: any) => ({ value: s._id, label: s.name })));
+        setSchoolInfo(schoolData);
+        setAcademicYearName(anneeData.name);
+
       } catch (error) {
-        notifications.show({ title: 'Erreur', message: 'Échec du chargement initial', color: 'red' });
+        notifications.show({ title: 'Erreur', message: 'Échec du chargement', color: 'red' });
       } finally {
         setLoadingData(false);
       }
     };
     fetchData();
   }, []);
+
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -176,11 +218,35 @@ export default function GradesPage() {
             <Title order={2} fz={{ base: 'h3', sm: 'h2' }}>Saisie des Notes</Title>
             <Text fz="sm" c="dimmed">Évaluation par bimestre</Text>
           </Stack>
-          {form.values.period && (
-            <Badge size="lg" variant="dot" color="blue" visibleFrom="sm">
-              Session : {form.values.period}
-            </Badge>
-          )}
+
+          <Group>
+            {form.values.period && (
+              <Badge size="lg" variant="dot" color="teal" visibleFrom="sm">
+                Session : {form.values.period}
+              </Badge>
+            )}
+            {students.length > 0 && (
+              <>
+                <Button 
+                  variant="light" 
+                  color="teal" 
+                  leftSection={<IconFileSpreadsheet size={16} />}
+                  onClick={exportToExcel}
+                >
+                  Export Excel
+                </Button>
+
+                <Button 
+                  variant="light" 
+                  color="gray" 
+                  leftSection={<IconPrinter size={16} />}
+                  onClick={() => handlePrint()}
+                >
+                  Imprimer
+                </Button>
+              </>
+            )}
+          </Group>
         </Group>
 
         <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -275,6 +341,7 @@ export default function GradesPage() {
             size="md"
             color="teal" 
             fullWidth 
+            mt="md"
             leftSection={<IconDeviceFloppy size={20}/>}
             disabled={!form.values.period || !form.values.subjectId}
           >
@@ -282,6 +349,21 @@ export default function GradesPage() {
           </Button>
 
         </form>
+
+        <div style={{ display: 'none' }}>
+          <div ref={printRef}>
+            <GradesListPrint 
+              students={students}
+              grades={form.values.grades}
+              period={form.values.period}
+              classLabel={classList.find(c => c.value === form.values.classId)?.label || ''}
+              subjectLabel={subjectList.find(s => s.value === form.values.subjectId)?.label || ''}
+              schoolInfo={schoolInfo}
+              academicYearLabel={academicYearName || '---'}
+            />
+          </div>
+        </div>
+
       </Stack>
     </Box>
   );
