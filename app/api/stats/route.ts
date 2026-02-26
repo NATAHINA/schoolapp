@@ -48,7 +48,11 @@ export async function GET(req: Request) {
 
 
     const [totalStudents, totalClasses, filteredPayments, studentChart, absencesCount] = await Promise.all([
-      Student.countDocuments({ schoolId: sId, academicYear: aId }),
+      Student.countDocuments({ 
+        schoolId: sId, 
+        academicYear: aId, 
+        ...(hasDateFilter ? { createdAt: dateFilter } : {}) 
+      }),
       Class.countDocuments({ schoolId: sId }),
       Payment.find({ 
         schoolId: sId, 
@@ -99,7 +103,7 @@ export async function GET(req: Request) {
     
     const paidStudentsCount = (await Payment.distinct('student', { 
       schoolId: sId, 
-      academicYear: aId, 
+      academicYear: aId,
       type: 'Écolage' 
     })).length;
 
