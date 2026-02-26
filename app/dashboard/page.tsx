@@ -5,8 +5,9 @@
 import { useEffect, useState } from 'react';
 import { 
   SimpleGrid, Card, Text, Group, Title, Skeleton, Paper, Alert, Stack, 
-  ThemeIcon, RingProgress, Divider, Badge  
+  ThemeIcon, RingProgress, Divider, Badge, UnstyledButton  
 } from '@mantine/core';
+
 import { 
   IconUsers, IconSchool, IconUserOff, IconAlertCircle, 
   IconCash, IconCalendarStats, IconTrendingUp 
@@ -15,11 +16,13 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, 
   ResponsiveContainer, BarChart, Bar, Cell 
 } from 'recharts';
+import Link from 'next/link';
 
 export default function DashboardPage() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [academicYearName, setAcademicYearName] = useState('');
 
   useEffect(() => {
     const schoolId = localStorage.getItem('school_id');
@@ -52,15 +55,19 @@ export default function DashboardPage() {
           return;
         }
 
-        const res = await fetch(`/api/stats?schoolId=${schoolId}&academicYear=${activeAnneeId}`);
-        
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(errorData.error || `Erreur serveur (${res.status})`);
-        }
+        // const res = await fetch(`/api/stats?schoolId=${schoolId}&academicYear=${activeAnneeId}`);
 
-        const json = await res.json();
-        setData(json);
+        const [resStats, resAnnee] = await Promise.all([
+          fetch(`/api/stats?schoolId=${schoolId}&academicYear=${activeAnneeId}`),
+          fetch(`/api/settings/annee/${activeAnneeId}`)
+        ]);
+
+        const statsJson = await resStats.json();
+        const anneeJson = await resAnnee.json();
+
+        setData(statsJson);
+        setAcademicYearName(anneeJson.name);
+        
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -107,7 +114,7 @@ export default function DashboardPage() {
           <Title order={2} fw={800}>Tableau de Bord</Title>
           <Text fz="sm" c="dimmed">Aperçu global de l'établissement pour l'année en cours</Text>
         </Stack>
-        <Badge size="xl" variant="dot" color="blue">Session 2025-2026</Badge>
+        <Badge size="xl" variant="dot" color="teal">Session {academicYearName || '...'}</Badge>
       </Group>
 
       {/* --- CARTES DE STATISTIQUES PRINCIPALES --- */}
@@ -118,6 +125,7 @@ export default function DashboardPage() {
           icon={<IconUsers size={24} />} 
           color="blue" 
           description="Total des effectifs"
+          link="/dashboard/students"
         />
         <StatCard 
           title="Recettes" 
@@ -125,6 +133,7 @@ export default function DashboardPage() {
           icon={<IconCash size={24} />} 
           color="teal" 
           description="Encaissements totaux"
+          link="/dashboard/payments"
         />
         <StatCard 
           title="Absences" 
@@ -132,6 +141,7 @@ export default function DashboardPage() {
           icon={<IconCalendarStats size={24} />} 
           color="red" 
           description="Enregistrées ce jour"
+          link="/dashboard/attendance"
         />
         <StatCard 
           title="Classes" 
@@ -139,6 +149,7 @@ export default function DashboardPage() {
           icon={<IconSchool size={24} />} 
           color="violet" 
           description="Salles actives"
+          link="/dashboard/settings/classes"
         />
       </SimpleGrid>
 
@@ -235,19 +246,61 @@ export default function DashboardPage() {
 }
 
 // --- SOUS-COMPOSANT POUR LES CARTES ---
-function StatCard({ title, value, icon, color, description }: any) {
+// function StatCard({ title, value, icon, color, description }: any) {
+//   return (
+//     <Card withBorder radius="md" p="lg" shadow="sm">
+//       <Group justify="space-between" align="flex-start">
+//         <Stack gap={0}>
+//           <Text fz="xs" c="dimmed" fw={700} tt="uppercase">{title}</Text>
+//           <Text fz="xl" fw={800}>{value}</Text>
+//           <Text fz="xs" c="dimmed" mt={4}>{description}</Text>
+//         </Stack>
+//         <ThemeIcon variant="light" color={color} size="xl" radius="md">
+//           {icon}
+//         </ThemeIcon>
+//       </Group>
+//     </Card>
+//   );
+// }
+
+
+function StatCard({ title, value, icon, color, description, link }: any) {
   return (
-    <Card withBorder radius="md" p="lg" shadow="sm">
-      <Group justify="space-between" align="flex-start">
-        <Stack gap={0}>
-          <Text fz="xs" c="dimmed" fw={700} tt="uppercase">{title}</Text>
-          <Text fz="xl" fw={800}>{value}</Text>
-          <Text fz="xs" c="dimmed" mt={4}>{description}</Text>
-        </Stack>
-        <ThemeIcon variant="light" color={color} size="xl" radius="md">
-          {icon}
-        </ThemeIcon>
-      </Group>
-    </Card>
+    <UnstyledButton 
+      component={Link} 
+      href={link} 
+      style={{ display: 'block' }}
+    >
+      <Card 
+        withBorder 
+        radius="md" 
+        p="lg" 
+        shadow="sm"
+        style={{ 
+          cursor: 'pointer',
+          transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+        }}
+        
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-5px)';
+          e.currentTarget.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = 'none';
+        }}
+      >
+        <Group justify="space-between" align="flex-start">
+          <Stack gap={0}>
+            <Text fz="xs" c="dimmed" fw={700} tt="uppercase">{title}</Text>
+            <Text fz="xl" fw={800}>{value}</Text>
+            <Text fz="xs" c="dimmed" mt={4}>{description}</Text>
+          </Stack>
+          <ThemeIcon variant="light" color={color} size="xl" radius="md">
+            {icon}
+          </ThemeIcon>
+        </Group>
+      </Card>
+    </UnstyledButton>
   );
 }
