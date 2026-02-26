@@ -5,24 +5,30 @@
 import { useEffect, useState } from 'react';
 import { 
   SimpleGrid, Card, Text, Group, Title, Skeleton, Paper, Alert, Stack, 
-  ThemeIcon, RingProgress, Divider, Badge, UnstyledButton  
+  ThemeIcon, RingProgress, Divider, Badge, UnstyledButton, ActionIcon, Button  
 } from '@mantine/core';
-
+import { DatePickerInput } from '@mantine/dates';
 import { 
   IconUsers, IconSchool, IconUserOff, IconAlertCircle, 
-  IconCash, IconCalendarStats, IconTrendingUp 
+  IconCash, IconCalendarStats, IconTrendingUp, IconFilter, IconRefresh 
 } from '@tabler/icons-react';
 import { 
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, 
   ResponsiveContainer, BarChart, Bar, Cell 
 } from 'recharts';
 import Link from 'next/link';
+import dayjs from 'dayjs';
 
 export default function DashboardPage() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [academicYearName, setAcademicYearName] = useState('');
+
+  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
+    dayjs().subtract(30, 'days').toDate(),
+    new Date(),
+  ]);
 
   useEffect(() => {
     const schoolId = localStorage.getItem('school_id');
@@ -55,13 +61,14 @@ export default function DashboardPage() {
           return;
         }
 
-        // const res = await fetch(`/api/stats?schoolId=${schoolId}&academicYear=${activeAnneeId}`);
+        const start = dateRange[0] ? dayjs(dateRange[0]).format('YYYY-MM-DD') : '';
+        const end = dateRange[1] ? dayjs(dateRange[1]).format('YYYY-MM-DD') : '';
 
         const [resStats, resAnnee] = await Promise.all([
-          fetch(`/api/stats?schoolId=${schoolId}&academicYear=${activeAnneeId}`),
+          fetch(`/api/stats?schoolId=${schoolId}&academicYear=${activeAnneeId}&startDate=${start}&endDate=${end}`),
           fetch(`/api/settings/annee/${activeAnneeId}`)
         ]);
-
+        
         const statsJson = await resStats.json();
         const anneeJson = await resAnnee.json();
 
@@ -75,7 +82,11 @@ export default function DashboardPage() {
       }
     };
 
-    
+    useEffect(() => {
+      if (dateRange[0] && dateRange[1]) {
+        fetchData();
+      }
+    }, [dateRange]);
 
   if (loading) return (
     <Stack p="md">
@@ -109,13 +120,41 @@ export default function DashboardPage() {
 
   return (
     <Stack p="md" gap="xl">
-      <Group justify="space-between">
-        <Stack gap={2}>
-          <Title order={2} fw={800}>Tableau de Bord</Title>
-          <Text fz="sm" c="dimmed">Aperçu global de l'établissement pour l'année en cours</Text>
-        </Stack>
-        <Badge size="xl" variant="dot" color="teal">Session {academicYearName || '...'}</Badge>
-      </Group>
+      <Paper withBorder p="md" radius="md" shadow="xs">
+        <Group justify="space-between" align="flex-end">
+          <Stack gap={2}>
+            <Group gap="xs">
+              <Title order={2} fw={800}>Tableau de Bord</Title>
+              <Badge size="lg" variant="light" color="teal">
+                {academicYearName || '...'}
+              </Badge>
+            </Group>
+            <Text fz="sm" c="dimmed">Analyse des données sur la période sélectionnée</Text>
+          </Stack>
+
+          <Group align="flex-end">
+            <DatePickerInput
+              type="range"
+              label="Période d'analyse"
+              placeholder="Sélectionner une plage"
+              value={dateRange}
+              onChange={setDateRange}
+              leftSection={<IconFilter size={16} />}
+              clearable
+              w={280}
+            />
+            <ActionIcon 
+              variant="light" 
+              size="lg" 
+              onClick={fetchData} 
+              loading={loading}
+              title="Actualiser"
+            >
+              <IconRefresh size={20} />
+            </ActionIcon>
+          </Group>
+        </Group>
+      </Paper>
 
       {/* --- CARTES DE STATISTIQUES PRINCIPALES --- */}
       <SimpleGrid cols={{ base: 1, xs: 2, md: 4 }}>
@@ -246,61 +285,20 @@ export default function DashboardPage() {
 }
 
 // --- SOUS-COMPOSANT POUR LES CARTES ---
-// function StatCard({ title, value, icon, color, description }: any) {
-//   return (
-//     <Card withBorder radius="md" p="lg" shadow="sm">
-//       <Group justify="space-between" align="flex-start">
-//         <Stack gap={0}>
-//           <Text fz="xs" c="dimmed" fw={700} tt="uppercase">{title}</Text>
-//           <Text fz="xl" fw={800}>{value}</Text>
-//           <Text fz="xs" c="dimmed" mt={4}>{description}</Text>
-//         </Stack>
-//         <ThemeIcon variant="light" color={color} size="xl" radius="md">
-//           {icon}
-//         </ThemeIcon>
-//       </Group>
-//     </Card>
-//   );
-// }
-
-
-function StatCard({ title, value, icon, color, description, link }: any) {
+function StatCard({ title, value, icon, color, description }: any) {
   return (
-    <UnstyledButton 
-      component={Link} 
-      href={link} 
-      style={{ display: 'block' }}
-    >
-      <Card 
-        withBorder 
-        radius="md" 
-        p="lg" 
-        shadow="sm"
-        style={{ 
-          cursor: 'pointer',
-          transition: 'transform 0.2s ease, box-shadow 0.2s ease'
-        }}
-        
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-5px)';
-          e.currentTarget.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = 'none';
-        }}
-      >
-        <Group justify="space-between" align="flex-start">
-          <Stack gap={0}>
-            <Text fz="xs" c="dimmed" fw={700} tt="uppercase">{title}</Text>
-            <Text fz="xl" fw={800}>{value}</Text>
-            <Text fz="xs" c="dimmed" mt={4}>{description}</Text>
-          </Stack>
-          <ThemeIcon variant="light" color={color} size="xl" radius="md">
-            {icon}
-          </ThemeIcon>
-        </Group>
-      </Card>
-    </UnstyledButton>
+    <Card withBorder radius="md" p="lg" shadow="sm">
+      <Group justify="space-between" align="flex-start">
+        <Stack gap={0}>
+          <Text fz="xs" c="dimmed" fw={700} tt="uppercase">{title}</Text>
+          <Text fz="xl" fw={800}>{value}</Text>
+          <Text fz="xs" c="dimmed" mt={4}>{description}</Text>
+        </Stack>
+        <ThemeIcon variant="light" color={color} size="xl" radius="md">
+          {icon}
+        </ThemeIcon>
+      </Group>
+    </Card>
   );
 }
+
