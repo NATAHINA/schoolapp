@@ -57,7 +57,11 @@ export async function GET(req: Request) {
       }),
       
       Student.aggregate([
-        { $match: { schoolId: sId, academicYear: aId } },
+        { $match: { 
+          schoolId: sId, 
+          academicYear: aId,
+          ...(hasDateFilter ? { createdAt: dateFilter } : {}) } 
+        },
         {
           $group: {
             _id: { $dateToString: { format: "%d/%m", date: "$createdAt" } },
