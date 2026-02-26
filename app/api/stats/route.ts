@@ -58,7 +58,7 @@ export async function GET(req: Request) {
       
       Student.aggregate([
         { $match: { 
-          schoolId: sId, 
+          schoolId: sId,
           academicYear: aId,
           ...(hasDateFilter ? { createdAt: dateFilter } : {}) } 
         },
