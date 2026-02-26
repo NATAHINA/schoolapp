@@ -17,7 +17,9 @@ import {
   ResponsiveContainer, BarChart, Bar, Cell 
 } from 'recharts';
 import Link from 'next/link';
+import 'dayjs/locale/fr';
 import dayjs from 'dayjs';
+dayjs.locale('fr');
 
 export default function DashboardPage() {
   const [data, setData] = useState<any>(null);
@@ -25,10 +27,7 @@ export default function DashboardPage() {
   const [error, setError] = useState<string | null>(null);
   const [academicYearName, setAcademicYearName] = useState('');
 
-  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
-    dayjs().subtract(30, 'days').toDate(),
-    new Date(),
-  ]);
+  const [dateRange, setDateRange] = useState<[string | null, string | null]>([null, null]);
 
   useEffect(() => {
     const schoolId = localStorage.getItem('school_id');
@@ -84,7 +83,7 @@ export default function DashboardPage() {
 
     useEffect(() => {
       if (dateRange[0] && dateRange[1]) {
-        fetchData();
+        fetchStats();
       }
     }, [dateRange]);
 
@@ -138,15 +137,18 @@ export default function DashboardPage() {
               label="Période d'analyse"
               placeholder="Sélectionner une plage"
               value={dateRange}
-              onChange={setDateRange}
+              onChange={(val) => setDateRange(val)}
               leftSection={<IconFilter size={16} />}
               clearable
+              valueFormat="DD/MM/YYYY" 
+              locale="fr" 
               w={280}
             />
+
             <ActionIcon 
               variant="light" 
               size="lg" 
-              onClick={fetchData} 
+              onClick={fetchStats} 
               loading={loading}
               title="Actualiser"
             >
