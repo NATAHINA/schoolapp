@@ -160,38 +160,45 @@ export default function DashboardPage() {
 
       {/* --- CARTES DE STATISTIQUES PRINCIPALES --- */}
       <SimpleGrid cols={{ base: 1, xs: 2, md: 4 }}>
-        <StatCard 
-          title="Élèves Inscrits" 
-          value={data.totalStudents} 
-          icon={<IconUsers size={24} />} 
-          color="blue" 
-          description="Total des effectifs"
-          link="/dashboard/students"
-        />
-        <StatCard 
-          title="Recettes" 
-          value={`${data.totalRevenue?.toLocaleString()} Ar`} 
-          icon={<IconCash size={24} />} 
-          color="teal" 
-          description="Encaissements totaux"
-          link="/dashboard/payments"
-        />
-        <StatCard 
-          title="Absences" 
-          value={data.absencesToday} 
-          icon={<IconCalendarStats size={24} />} 
-          color="red" 
-          description="Enregistrées ce jour"
-          link="/dashboard/attendance"
-        />
-        <StatCard 
-          title="Classes" 
-          value={data.totalClasses} 
-          icon={<IconSchool size={24} />} 
-          color="violet" 
-          description="Salles actives"
-          link="/dashboard/settings/classes"
-        />
+        <Link href="/dashboard/students" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <StatCard 
+            title="Élèves Inscrits" 
+            value={data.totalStudents} 
+            icon={<IconUsers size={24} />} 
+            color="blue" 
+            description="Total des effectifs"
+          />
+        </Link>
+
+        <Link href="/dashboard/payments" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <StatCard 
+            title="Recettes" 
+            value={`${data.totalRevenue?.toLocaleString()} Ar`} 
+            icon={<IconCash size={24} />} 
+            color="teal" 
+            description="Encaissements totaux"
+          />
+        </Link>
+
+        <Link href="/dashboard/attendance" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <StatCard 
+            title="Absences" 
+            value={data.absencesToday} 
+            icon={<IconCalendarStats size={24} />} 
+            color="red" 
+            description="Enregistrées ce jour"
+          />
+        </Link>
+
+        <Link href="/dashboard/settings/classes" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <StatCard 
+            title="Classes" 
+            value={data.totalClasses} 
+            icon={<IconSchool size={24} />} 
+            color="violet" 
+            description="Salles actives"
+          />
+        </Link>
       </SimpleGrid>
 
       <SimpleGrid cols={{ base: 1, md: 2 }} spacing="xl">
