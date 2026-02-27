@@ -8,7 +8,8 @@ import Parent from '@/models/Parent';
 import Grade from '@/models/Grade';
 import Annee from '@/models/Annee';
 import School from '@/models/School';
-import Subject from '@/models/Subject'; // Votre modèle avec le champ 'coeff'
+import Subject from '@/models/Subject';
+import Class from '@/models/Class';
 
 export async function GET(req: Request) {
   try {
@@ -33,7 +34,11 @@ export async function GET(req: Request) {
     if (!parent) return NextResponse.json({ error: "Parent non trouvé" }, { status: 404 });
 
     const gradesReport = await Promise.all(parent.children.map(async (childId: any) => {
-      const student = await Student.findById(childId).lean();
+      const student = await Student.findById(childId)
+      .populate({ path: 'class', select: 'name' })
+      .lean();
+
+      const classNameDisplay = student?.class?.name || 'N/A';
       
       const grades = await Grade.find({ 
         student: childId, 
@@ -61,7 +66,9 @@ export async function GET(req: Request) {
 
       const average = totalCoefficients > 0 ? (totalPoints / totalCoefficients) : 0;
 
-      const classmates = await Student.find({ level: student?.level }).select('_id').lean();
+      const classmates = await Student.find({ class: student?.class?._id || student?.class })
+      .select('_id').lean();
+
       const classmatesIds = classmates.map(c => c._id);
 
       const allClassGrades = await Grade.find({ 
@@ -88,7 +95,7 @@ export async function GET(req: Request) {
       return {
         studentId: childId,
         studentName: student?.name || 'Élève inconnu',
-        className: student?.level || 'N/A', 
+        className: classNameDisplay, 
         academicYearName: yearDoc?.name || "N/A", 
         average: average.toFixed(2),
         rank,
