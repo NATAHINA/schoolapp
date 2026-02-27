@@ -21,10 +21,9 @@ const UserSchema = new Schema({
   resetPasswordExpire: Date,
   role: {
     type: String, 
-    enum: ['ADMIN', 'TEACHER', 'STUDENT', 'PARENT'], 
+    enum: ['ADMIN', 'TEACHER', 'STUDENT', 'PARENT', 'SECRETARY','ACCOUNTANT','SURVEILLANT'], 
     default: 'ADMIN' 
   },
- 
   schoolId: { 
     type: Schema.Types.ObjectId, 
     ref: 'School', 

@@ -91,7 +91,7 @@ export default function TermsOfService() {
                 </Text>
               </Title>
               <Text c="dimmed" mt="md">
-                Dernière révision : <strong>25 février 2026</strong> • Version 1.2.0
+                Dernière révision : <strong>01 Mars 2026</strong> • Version 1.3.0
               </Text>
             </Box>
 

@@ -26,8 +26,14 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [academicYearName, setAcademicYearName] = useState('');
+  const [userRole, setUserRole] = useState<string | null>(null);
 
   const [dateRange, setDateRange] = useState<[string | null, string | null]>([null, null]);
+
+  useEffect(() => {
+    const role = localStorage.getItem('user_role');
+    setUserRole(role);
+  }, []);
 
   useEffect(() => {
     const schoolId = localStorage.getItem('school_id');
@@ -86,6 +92,8 @@ export default function DashboardPage() {
         fetchStats();
       }
     }, [dateRange]);
+
+  const canViewFinance = userRole === 'ADMIN' || userRole === 'ACCOUNTANT';
 
   if (loading) return (
     <Stack p="md">
@@ -170,15 +178,17 @@ export default function DashboardPage() {
           />
         </Link>
 
-        <Link href="/dashboard/payments" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <StatCard 
-            title="Recettes" 
-            value={`${data.totalRevenue?.toLocaleString()} Ar`} 
-            icon={<IconCash size={24} />} 
-            color="teal" 
-            description="Encaissements totaux"
-          />
-        </Link>
+        {canViewFinance && (
+          <Link href="/dashboard/payments" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <StatCard 
+              title="Recettes" 
+              value={`${data.totalRevenue?.toLocaleString()} Ar`} 
+              icon={<IconCash size={24} />} 
+              color="teal" 
+              description="Encaissements totaux"
+            />
+          </Link>
+        )}
 
         <Link href="/dashboard/attendance" style={{ textDecoration: 'none', color: 'inherit' }}>
           <StatCard 
@@ -201,7 +211,7 @@ export default function DashboardPage() {
         </Link>
       </SimpleGrid>
 
-      <SimpleGrid cols={{ base: 1, md: 2 }} spacing="xl">
+      <SimpleGrid cols={{ base: 1, md: canViewFinance ? 2 : 1 }} spacing="xl">
         
         <Paper withBorder p="lg" radius="md" shadow="sm">
           <Group justify="space-between" mb="xl">
@@ -221,6 +231,7 @@ export default function DashboardPage() {
           </div>
         </Paper>
 
+        {canViewFinance && (
         <Paper withBorder p="lg" radius="md" shadow="sm">
           <Title order={4} mb="xl">Revenus (Ar)</Title>
           <div style={{ height: 280 }}>
@@ -245,9 +256,10 @@ export default function DashboardPage() {
             </ResponsiveContainer>
           </div>
         </Paper>
-      </SimpleGrid>
+      )}
+    </SimpleGrid>
 
-      {/* --- SECTION BASSE : RÉPARTITION ET ALERTES --- */}
+      {canViewFinance && (
       <SimpleGrid cols={{ base: 1, md: 3 }} spacing="xl">
         <Paper withBorder p="lg" radius="md" shadow="sm" style={{ gridColumn: 'span 1' }}>
           <Title order={5} mb="md">Taux de Recouvrement</Title>
@@ -286,6 +298,7 @@ export default function DashboardPage() {
           </Stack>
         </Paper>
       </SimpleGrid>
+    )}
     </Stack>
   );
 }

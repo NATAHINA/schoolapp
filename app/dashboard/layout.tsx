@@ -13,7 +13,7 @@ import {
   IconSun, IconMoon, IconLogout, IconUsersGroup, IconBellRinging,IconSettingsDollar,
   IconBooks, IconHierarchy2, IconCalendarEvent, IconUser, IconAffiliate, IconBackpack,
   IconClockCheck, IconMenu4, IconChartDots, IconChecklist, IconFileDescription, 
-  IconCash, IconInfoCircle
+  IconCash, IconInfoCircle, IconUserCog
 } from '@tabler/icons-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -61,6 +61,7 @@ const menus = {
         { link: '/dashboard/settings/classes', label: 'Classes', icon: IconHierarchy2 },
         { link: '/dashboard/settings/fees', label: 'Grille tarifaire', icon: IconSettingsDollar },
         { link: '/dashboard/settings/subjects', label: 'Matières', icon: IconBooks },
+        { link: '/dashboard/settings/users', label: 'Utilisateurs', icon: IconUserCog },
       ]
     },
     { link: '/dashboard/about', label: 'À propos', icon: IconInfoCircle },
@@ -71,7 +72,40 @@ const menus = {
     { link: '/dashboard/parent/attendance', label: 'Assiduité', icon: IconBellRinging },
     { link: '/dashboard/parent/grades', label: 'Notes & Bulletins', icon: IconChartBar },
   ],
-  
+  SECRETARY: [
+    { link: '/dashboard', label: 'Accueil', icon: IconDashboard },
+    {
+      label: 'Gestion Élèves', 
+      icon: IconUsersGroup,
+      links: [
+        { link: '/dashboard/students', label: 'Listes des élèves', icon: IconMenu4 },
+        { link: '/dashboard/parents', label: 'Dossiers Parents', icon: IconUsers },
+        { link: '/dashboard/attendance', label: "Faire l'appel", icon: IconBellRinging },
+      ]
+    },
+    {
+      label: 'Scolarité', 
+      icon: IconChartBar,
+      links: [
+        { link: '/dashboard/grades', label: 'Notes', icon: IconChecklist },
+        { link: '/dashboard/reports', label: "Bulletins", icon: IconFileDescription },
+      ]
+    },
+  ],
+
+  ACCOUNTANT: [
+    { link: '/dashboard', label: 'Tableau de bord', icon: IconDashboard },
+    { link: '/dashboard/payments', label: 'Caisse & Écolages', icon: IconCash },
+    { link: '/dashboard/students', label: 'Liste Élèves', icon: IconUsersGroup },
+    { link: '/dashboard/settings/fees', label: 'Grille tarifaire', icon: IconSettingsDollar },
+  ],
+
+  SURVEILLANT: [
+    { link: '/dashboard', label: 'Vue d\'ensemble', icon: IconDashboard },
+    { link: '/dashboard/attendance', label: "Appel & Retards", icon: IconBellRinging },
+    { link: '/dashboard/students', label: 'Recherche Élève', icon: IconUsersGroup },
+    { link: '/dashboard/teachers/attendance', label: 'Présence Profs', icon: IconClockCheck },
+  ],
 };
 
 
