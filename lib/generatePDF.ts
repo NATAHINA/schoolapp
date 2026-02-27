@@ -27,7 +27,7 @@ export const generateStudentReport = (report: any, schoolInfo: any) => {
 
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
-  doc.text(`ÉLÈVE : ${report.studentName.toUpperCase()}`, 14, 60);
+  doc.text(`Nom et prénom(s) : ${report.studentName.toUpperCase()}`, 14, 60);
   
   // CORRECTION AFFICHAGE ANNÉE SCOLAIRE
   doc.setFont('helvetica', 'normal');
