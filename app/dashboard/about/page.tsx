@@ -140,7 +140,7 @@ export default function AboutPage() {
                 {/* VERSION 1.1 */}
                 <Stack gap="xs">
                   <Group justify="space-between">
-                    <Badge color="gray" variant="outline">v1.1</Badge>
+                    <Badge color="gray" variant="outline">v1.0</Badge>
                     <Text fz="xs" c="dimmed" fw={500}>Janvier 2026</Text>
                   </Group>
                   <List size="xs" spacing={6} icon={<ThemeIcon size={14} radius="xl" color="gray"><IconShieldCheck size={10} /></ThemeIcon>}>
@@ -174,7 +174,7 @@ export default function AboutPage() {
                 fullWidth
                 leftSection={<IconBrandFacebook size={18} />}
               >
-                Suivre EduManager sur Facebook
+                Suivre sur Facebook
               </Button>
             </Stack>
           </Paper>
