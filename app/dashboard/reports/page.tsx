@@ -22,6 +22,7 @@ export default function ReportsPage() {
   const [selectedClass, setSelectedClass] = useState<string | null>(null);
   const [period, setPeriod] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [deliberationAverage, setDeliberationAverage] = useState(10);
   
   const listPrintRef = useRef<HTMLDivElement>(null);
   const componentRef = useRef<HTMLDivElement>(null);
@@ -47,6 +48,16 @@ export default function ReportsPage() {
       setClasses(data.map((c: any) => ({ value: c._id, label: c.name })));
     };
     fetchClasses();
+
+    const fetchSchoolSettings = async () => {
+      const schoolId = localStorage.getItem('school_id');
+      if (!schoolId) return;
+      const res = await fetch(`/api/settings/general?schoolId=${schoolId}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      setDeliberationAverage(Number(data.deliberationAverage ?? 10));
+    };
+    fetchSchoolSettings();
   }, []);
 
   const fetchReports = async () => {
@@ -103,8 +114,8 @@ export default function ReportsPage() {
 
   const stats = {
     total: reports.length,
-    passed: reports.filter((r: any) => r.average >= 10).length,
-    failed: reports.filter((r: any) => r.average < 10).length,
+    passed: reports.filter((r: any) => r.average >= deliberationAverage).length,
+    failed: reports.filter((r: any) => r.average < deliberationAverage).length,
     maxAvg: reports.length > 0 ? Math.max(...reports.map((r: any) => r.average)) : 0,
     minAvg: reports.length > 0 ? Math.min(...reports.map((r: any) => r.average)) : 0,
   };
@@ -180,7 +191,7 @@ export default function ReportsPage() {
       <SimpleGrid cols={{ base: 2, md: 4 }} spacing="md">
         {[
           { label: 'Réussite', value: `${successRate}%`, color: 'teal', sub: `${stats.passed} admis` },
-          { label: 'Échecs', value: stats.failed, color: 'red', sub: 'Moyenne < 10' },
+          { label: 'Échecs', value: stats.failed, color: 'red', sub: `Moyenne < ${deliberationAverage}` },
           { label: 'Moy. Max', value: stats.maxAvg.toFixed(2), color: 'indigo', sub: 'Majorant' },
           { label: 'Moy. Min', value: stats.minAvg.toFixed(2), color: 'orange', sub: 'Minorant' },
         ].map((s, i) => (
@@ -221,12 +232,12 @@ export default function ReportsPage() {
                   </Table.Td>
                   <Table.Td>
                     <Group gap="xs">
-                      <Text fw={800} fz="md" c={r.average >= 10 ? 'teal.8' : 'red.8'}>
+                      <Text fw={800} fz="md" c={r.average >= deliberationAverage ? 'teal.8' : 'red.8'}>
                         {r.average.toFixed(2)}
                       </Text>
                       <Divider orientation="vertical" />
-                      <Badge variant="dot" color={r.average >= 10 ? 'teal' : 'red'}>
-                        {r.average >= 10 ? 'Admis' : 'Échec'}
+                      <Badge variant="dot" color={r.average >= deliberationAverage ? 'teal' : 'red'}>
+                        {r.average >= deliberationAverage ? 'Admis' : 'Échec'}
                       </Badge>
                     </Group>
                   </Table.Td>
@@ -267,8 +278,8 @@ export default function ReportsPage() {
 
       {/* COMPOSANTS D'IMPRESSION CACHÉS */}
       <Box style={{ display: 'none' }}>
-        <ReportCard ref={componentRef} data={selectedReport} />
-        <ResultListPrint ref={listPrintRef} reports={reports} period={period || ''} />
+        <ReportCard ref={componentRef} data={selectedReport} deliberationAverage={deliberationAverage} />
+        <ResultListPrint ref={listPrintRef} reports={reports} period={period || ''} deliberationAverage={deliberationAverage} />
       </Box>
     </Stack>
   );

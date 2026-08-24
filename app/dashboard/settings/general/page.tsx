@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { 
-  TextInput, Button, Paper, Title, Text, Stack, SimpleGrid, 
+  TextInput, NumberInput, Button, Paper, Title, Text, Stack, SimpleGrid, 
   Group, LoadingOverlay, Divider, FileInput, Avatar, Box 
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
@@ -25,6 +25,7 @@ export default function GeneralSettings() {
       rcs: '',
       website: '',
       logo: '',
+      deliberationAverage: 10,
     },
   });
 
@@ -121,6 +122,17 @@ export default function GeneralSettings() {
             </SimpleGrid>
 
             <TextInput label="Adresse" {...form.getInputProps('address')} />
+
+            <NumberInput
+              label="Moyenne minimale de délibération"
+              description="Seuil utilisé pour déterminer si un élève est admis"
+              min={0}
+              max={20}
+              decimalScale={2}
+              allowDecimal
+              suffix=" / 20"
+              {...form.getInputProps('deliberationAverage')}
+            />
 
             <Text fw={700} mt="lg">Informations Légales & Fiscales</Text>
             <Divider />

@@ -11,6 +11,7 @@ const SchoolSchema = new Schema({
 	rcs: { type: String },
 	city: { type: String },
 	website: { type: String },
+	deliberationAverage: { type: Number, min: 0, max: 20, default: 10 },
 	subscriptionStatus: {
 		type: String,
 		enum: ['active', 'inactive', 'trial'],

@@ -3,10 +3,11 @@ import { forwardRef } from 'react';
 
 interface ReportCardProps {
   data: any; 
+  deliberationAverage?: number;
 }
 
 
-export const ReportCard = forwardRef<HTMLDivElement, ReportCardProps>(({ data }, ref) => {
+export const ReportCard = forwardRef<HTMLDivElement, ReportCardProps>(({ data, deliberationAverage = 10 }, ref) => {
   if (!data) return null;
 
   // Fonction pour l'appréciation automatique
@@ -14,7 +15,7 @@ export const ReportCard = forwardRef<HTMLDivElement, ReportCardProps>(({ data },
     if (avg >= 16) return "Excellent travail, félicitations !";
     if (avg >= 14) return "Très bon. Continuez ainsi.";
     if (avg >= 12) return "Satisfaisant. Peut encore mieux faire.";
-    if (avg >= 10) return "Passable. Travail régulier à poursuivre.";
+    if (avg >= deliberationAverage) return "Passable. Travail régulier à poursuivre.";
     return "Insuffisant. Doit redoubler d'efforts.";
   };
 

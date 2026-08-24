@@ -5,9 +5,10 @@ interface ResultListPrintProps {
   reports: any[];
   className?: string;
   period: string;
+  deliberationAverage?: number;
 }
 
-export const ResultListPrint = forwardRef<HTMLDivElement, ResultListPrintProps>(({ reports, className, period }, ref) => {
+export const ResultListPrint = forwardRef<HTMLDivElement, ResultListPrintProps>(({ reports, className, period, deliberationAverage = 10 }, ref) => {
   if (!reports || reports.length === 0) return null;
   
   const school = reports[0].schoolId;
@@ -82,8 +83,8 @@ export const ResultListPrint = forwardRef<HTMLDivElement, ResultListPrintProps>(
               <Table.Td fw={500}>{r.student?.name?.toUpperCase()}</Table.Td>
               <Table.Td ta="center" fw={700}>{r.average.toFixed(2)}</Table.Td>
               <Table.Td ta="center">
-                <Text fz="xs" fw={700} c={r.average >= 10 ? 'teal.9' : 'red.9'}>
-                  {r.average >= 10 ? 'ADMIS' : 'ÉCHEC'}
+                <Text fz="xs" fw={700} c={r.average >= deliberationAverage ? 'teal.9' : 'red.9'}>
+                  {r.average >= deliberationAverage ? 'ADMIS' : 'ÉCHEC'}
                 </Text>
               </Table.Td>
               <Table.Td></Table.Td>
