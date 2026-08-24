@@ -14,6 +14,7 @@ import { useReactToPrint } from 'react-to-print';
 import { notifications } from '@mantine/notifications';
 import { ReportCard } from '@/components/ReportCard';
 import { ResultListPrint } from '@/components/ResultListPrint';
+import Link from 'next/link';
 
 export default function ReportsPage() {
   
@@ -23,6 +24,7 @@ export default function ReportsPage() {
   const [period, setPeriod] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [deliberationAverage, setDeliberationAverage] = useState(10);
+  const [isAdmin, setIsAdmin] = useState(false);
   
   const listPrintRef = useRef<HTMLDivElement>(null);
   const componentRef = useRef<HTMLDivElement>(null);
@@ -41,6 +43,8 @@ export default function ReportsPage() {
   });
 
   useEffect(() => {
+    setIsAdmin(localStorage.getItem('user_role') === 'ADMIN');
+
     const fetchClasses = async () => {
       const schoolId = localStorage.getItem('school_id');
       const res = await fetch(`/api/settings/classes?schoolId=${schoolId}`);
@@ -155,6 +159,16 @@ export default function ReportsPage() {
           >
             {reports.length > 0 ? 'Recalculer' : 'Générer'}
           </Button>
+          {isAdmin && (
+            <Group gap="xs" ml="auto" wrap="nowrap">
+              <Text size="sm" fw={600} c="dimmed" style={{ whiteSpace: 'nowrap' }}>
+                Moyenne de délibération : {deliberationAverage.toFixed(2)} / 20
+              </Text>
+              <Button component={Link} href="/dashboard/settings/general" variant="subtle" size="compact-sm">
+                Modifier
+              </Button>
+            </Group>
+          )}
         </Flex>
       </Group>
 
