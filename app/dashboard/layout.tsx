@@ -19,7 +19,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { notifications } from '@mantine/notifications';
 import { AcademicYearSelector } from '@/components/AcademicYearSelector';
-import { DashboardOnboarding } from '@/components/DashboardOnboarding';
+import { DashboardOnboarding, OnboardingMenuItem } from '@/components/DashboardOnboarding';
 
 // --- CONFIGURATION DES MENUS PAR RÔLE ---
 const menus = {
@@ -231,7 +231,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   if (!mounted) return null;
   const currentMenu = menus[userRole as keyof typeof menus] || menus.ADMIN;
-  const menuLabels = currentMenu.map((item) => item.label);
+  const onboardingMenuItems: OnboardingMenuItem[] = currentMenu.map((item) => ({
+    label: item.label,
+    children: 'links' in item && item.links
+      ? item.links.map((sub: { label: string }) => sub.label)
+      : undefined,
+  }));
 
   return (
     <AppShell
@@ -320,7 +325,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </AppShell.Main>
       <DashboardOnboarding
         role={userRole}
-        menuLabels={menuLabels}
+        menuItems={onboardingMenuItems}
         onHelpReady={(open) => setOpenOnboarding(() => open)}
       />
     </AppShell>
