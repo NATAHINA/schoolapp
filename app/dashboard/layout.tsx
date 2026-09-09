@@ -4,7 +4,7 @@
 
 import { useState, useEffect } from 'react';
 import {
-  AppShell, Burger, Group, NavLink, Title, ActionIcon, Text,
+  AppShell, Burger, Group, NavLink, Title, ActionIcon,
   useMantineColorScheme, useComputedColorScheme, rem, ScrollArea,
   Menu, Avatar, UnstyledButton, Box, Stack, Flex
 } from '@mantine/core';
@@ -13,12 +13,13 @@ import {
   IconSun, IconMoon, IconLogout, IconUsersGroup, IconBellRinging,IconSettingsDollar,
   IconBooks, IconHierarchy2, IconCalendarEvent, IconUser, IconAffiliate, IconBackpack,
   IconClockCheck, IconMenu4, IconChartDots, IconChecklist, IconFileDescription, 
-  IconCash, IconInfoCircle, IconUserCog
+  IconCash, IconInfoCircle, IconUserCog, IconHelpCircle
 } from '@tabler/icons-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { notifications } from '@mantine/notifications';
 import { AcademicYearSelector } from '@/components/AcademicYearSelector';
+import { DashboardOnboarding } from '@/components/DashboardOnboarding';
 
 // --- CONFIGURATION DES MENUS PAR RÔLE ---
 const menus = {
@@ -106,6 +107,25 @@ const menus = {
     { link: '/dashboard/students', label: 'Recherche Élève', icon: IconUsersGroup },
     { link: '/dashboard/teachers/attendance', label: 'Présence Profs', icon: IconClockCheck },
   ],
+  TEACHER: [
+    { link: '/dashboard', label: 'Vue d\'ensemble', icon: IconDashboard },
+    {
+      label: 'Élèves',
+      icon: IconUsersGroup,
+      links: [
+        { link: '/dashboard/students', label: 'Liste des élèves', icon: IconMenu4 },
+        { link: '/dashboard/attendance', label: "Faire l'appel", icon: IconBellRinging },
+      ],
+    },
+    {
+      label: 'Scolarité',
+      icon: IconChartBar,
+      links: [
+        { link: '/dashboard/grades', label: 'Notes', icon: IconChecklist },
+        { link: '/dashboard/reports', label: 'Bulletins', icon: IconFileDescription },
+      ],
+    },
+  ],
 };
 
 
@@ -115,6 +135,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [schoolData, setSchoolData] = useState<{name: string, logo: string} | null>(null);
   const [userRole, setUserRole] = useState<string>('ADMIN');
   const [user, setUser] = useState({ name: 'Utilisateur', initials: 'U' });
+  const [openOnboarding, setOpenOnboarding] = useState<(() => void) | null>(null);
   
   const pathname = usePathname();
   const router = useRouter();
@@ -209,6 +230,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   };
 
   if (!mounted) return null;
+  const currentMenu = menus[userRole as keyof typeof menus] || menus.ADMIN;
+  const menuLabels = currentMenu.map((item) => item.label);
 
   return (
     <AppShell
@@ -241,6 +264,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               {computedColorScheme === 'light' ? <IconMoon size={20} /> : <IconSun size={20} />}
             </ActionIcon>
 
+            <ActionIcon
+            variant="light"
+            color="teal"
+            size={{ base: 'md', sm: 'lg' } as any}
+            aria-label="Afficher la prise en main"
+            onClick={() => openOnboarding?.()}
+            >
+            <IconHelpCircle size={20} />
+            </ActionIcon>
+
             <Menu shadow="md" width={200} position="bottom-end">
               <Menu.Target>
                 <UnstyledButton>
@@ -265,7 +298,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <AppShell.Navbar p="xs">
         <AppShell.Section grow component={ScrollArea}>
           <Stack gap={4}>
-            {renderNavLinks(menus[userRole as keyof typeof menus] || menus.ADMIN)}
+            {renderNavLinks(currentMenu)}
           </Stack>
         </AppShell.Section>
 
@@ -285,6 +318,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {children}
         </Box>
       </AppShell.Main>
+      <DashboardOnboarding
+        role={userRole}
+        menuLabels={menuLabels}
+        onHelpReady={(open) => setOpenOnboarding(() => open)}
+      />
     </AppShell>
   );
 }

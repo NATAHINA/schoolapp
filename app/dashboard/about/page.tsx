@@ -11,8 +11,8 @@ import {
 } from '@tabler/icons-react';
 
 export default function AboutPage() {
-  const CURRENT_VERSION = "1.3-stable";
-  const RELEASE_DATE = "Mars 2026";
+  const CURRENT_VERSION = "1.4-stable";
+  const RELEASE_DATE = "Septembre 2026";
 
   const modules = [
     {
@@ -104,14 +104,29 @@ export default function AboutPage() {
           <Paper withBorder radius="md" p="md">
             <ScrollArea.Autosize mah={500} type="hover">
               <Stack gap="xl">
+
+                {/* VERSION 1.4 */}
+                <Stack gap="xs">
+                  <Group justify="space-between">
+                    <Badge color="teal" variant="filled">v1.4 (Version actuelle)</Badge>
+                    <Text fz="xs" c="dimmed" fw={500}>Septembre 2026</Text>
+                  </Group>
+                  <List size="xs" spacing={6} icon={<ThemeIcon size={14} radius="xl" color="teal"><IconShieldCheck size={10} /></ThemeIcon>}>
+                    <List.Item fw={600}>Ajout du paramètre configurable de moyenne minimale de délibération.</List.Item>
+                    <List.Item fw={600}>Intégration du système d&apos;onboarding utilisateur pour guider la navigation dans les menus et sous-menus.</List.Item>
+                    
+                  </List>
+                </Stack>
+
+                <Divider variant="dashed" />
                 
                 {/* VERSION 1.3 */}
                 <Stack gap="xs">
                   <Group justify="space-between">
-                    <Badge color="teal" variant="filled">v1.3 (Actuelle)</Badge>
+                    <Badge color="blue" variant="light">v1.3</Badge>
                     <Text fz="xs" c="dimmed" fw={500}>Mars 2026</Text>
                   </Group>
-                  <List size="xs" spacing={6} icon={<ThemeIcon size={14} radius="xl" color="teal"><IconShieldCheck size={10} /></ThemeIcon>}>
+                  <List size="xs" spacing={6} icon={<ThemeIcon size={14} radius="xl" color="blue"><IconShieldCheck size={10} /></ThemeIcon>}>
                     <List.Item fw={600}>Gestion avancée du Staff : activation/désactivation de compte.</List.Item>
                     <List.Item fw={600}>Protection des revenus : masquage des graphiques financiers selon le rôle.</List.Item>
                     <List.Item>Correction du bug de validation sur la modification des utilisateurs.</List.Item>
@@ -129,15 +144,15 @@ export default function AboutPage() {
                   </Group>
                   <List size="xs" spacing={6} icon={<ThemeIcon size={14} radius="xl" color="blue"><IconShieldCheck size={10} /></ThemeIcon>}>
                     <List.Item>Nouveau Dashboard visuel avec statistiques en temps réel.</List.Item>
-                    <List.Item>Filtres de période par date pour l'analyse des inscriptions et revenus.</List.Item>
+                    <List.Item>Filtres de période par date pour l&apos;analyse des inscriptions et revenus.</List.Item>
                     <List.Item>Intégration de DayJS pour une gestion des dates en français.</List.Item>
-                    <List.Item>Module d'absences avec compteurs journaliers.</List.Item>
+                    <List.Item>Module d&apos;absences avec compteurs journaliers.</List.Item>
                   </List>
                 </Stack>
 
                 <Divider variant="dashed" />
 
-                {/* VERSION 1.1 */}
+                {/* VERSION 1.0 */}
                 <Stack gap="xs">
                   <Group justify="space-between">
                     <Badge color="gray" variant="outline">v1.0</Badge>
@@ -161,7 +176,7 @@ export default function AboutPage() {
                 <IconInfoCircle size={20} color="gray" style={{ flexShrink: 0, marginTop: 2 }} />
                 <Text fz="xs" c="dimmed">
                   Pour tout problème technique ou demande de nouvelle fonctionnalité, 
-                  veuillez contacter l'équipe de développement via notre page officielle.
+                  veuillez contacter l&apos;équipe de développement via notre page officielle.
                 </Text>
               </Group>
 
@@ -183,4 +198,3 @@ export default function AboutPage() {
     </Stack>
   );
 }
-
